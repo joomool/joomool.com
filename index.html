@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOOMOOL - 아트토이 포트폴리오</title>
+    <title>JOOMOOL's arttoy</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <style>
         :root { --point-color: #39FF14; --bg-color: #ffffff; --text-main: #111111; --text-sub: #666666; --card-bg: #f9f9f9; }
@@ -18,12 +18,33 @@
         .section-title { font-size: 1.5rem; margin-bottom: 30px; display: flex; align-items: center; gap: 10px; }
         .section-title::before { content: ""; width: 30px; height: 4px; background-color: var(--point-color); }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .item { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #eee; }
+        
+        /* 카드 아이템 스타일 */
+        .item { background: var(--card-bg); border-radius: 15px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+        .item:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .item img { width: 100%; height: auto; display: block; }
         .item-info { padding: 20px; }
         .item-info h3 { margin: 0; font-size: 1.1rem; }
         .item-info p { color: var(--text-sub); margin: 8px 0; font-size: 0.9rem; }
-        .btn-buy { display: inline-block; padding: 10px 20px; background-color: var(--text-main); color: #fff; text-decoration: none; border-radius: 50px; font-size: 0.8rem; }
+        
+        /* 버튼 및 호버 효과 추가 */
+        .btn-view { 
+            display: inline-block; 
+            padding: 10px 25px; 
+            background-color: var(--text-main); 
+            color: #fff; 
+            text-decoration: none; 
+            border-radius: 50px; 
+            font-size: 0.8rem; 
+            font-weight: 600;
+            transition: 0.3s;
+            border: none;
+        }
+        .item:hover .btn-view { 
+            background-color: var(--point-color); 
+            color: #000; 
+        }
+
         footer { text-align: center; padding: 40px; color: #bbb; font-size: 0.8rem; }
     </style>
 </head>
@@ -35,28 +56,38 @@
 
     <section class="hero">
         <h1>JOOMOOL <span>Universe</span></h1>
-        <p>작고 단단한 세계를 만드는 아트토이 작가 주물입니다.</p>
+        <p>주물주물 작은 세계</p>
     </section>
 
     <div class="container" id="portfolio">
         <h2 class="section-title">Latest Works</h2>
         <div class="grid">
-            <div class="item">
-                <img src="ippari002_01.png" alt="이파리 Purple">
-                <div class="item-info"><h3>이파리 Purple</h3><p>Resin Art | 2024</p></div>
-            </div>
-            <div class="item">
-                <img src="ippari001.png" alt="이파리 Black">
-                <div class="item-info"><h3>이파리 Black</h3><p>Vinyl Mixed Media | 2024</p></div>
-            </div>
-            <div class="item" id="shop">
-                <img src="angma_005.png" alt="앙마 Pink">
+            <a href="ippari_black.html" class="item">
+                <img src="ippari001.png" alt="이빠리 Black">
                 <div class="item-info">
-                    <h3>앙마 Pink (Limited)</h3>
-                    <p>₩ 150,000</p>
-                    <a href="#" class="btn-buy" style="background-color: var(--point-color); color: #000;">구매 문의하기</a>
+                    <h3>이빠리 Black</h3>
+                    <p>Vinyl Mixed Media | 2024</p>
+                    <span class="btn-view">구경하기</span>
                 </div>
-            </div>
+            </a>
+
+            <a href="ippari_purple.html" class="item">
+                <img src="ippari002_01.png" alt="이빠리 Purple">
+                <div class="item-info">
+                    <h3>이빠리 Purple</h3>
+                    <p>Resin Art | 2024</p>
+                    <span class="btn-view">구경하기</span>
+                </div>
+            </a>
+
+            <a href="angma_red.html" class="item" id="shop">
+                <img src="angma_005.png" alt="앙마 Red">
+                <div class="item-info">
+                    <h3>앙마 Red (Limited)</h3>
+                    <p>₩ 150,000</p>
+                    <span class="btn-view">구경하기</span>
+                </div>
+            </a>
         </div>
     </div>
     <footer>&copy; 2024 JOOMOOL. All rights reserved.</footer>

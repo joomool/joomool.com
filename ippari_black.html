@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JOOMOOL - 작품 상세</title>
+    <title>JOOMOOL - ippari-purple</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <style>
-        :root { --point-color: #39FF14; --bg-color: #ffffff; --text-main: #111111; --text-sub: #666666; }
+        :root { --point-color: #39FF14; --bg-color: #ffffff; --text-main: #111111; --text-sub: #666666; --card-bg: #f9f9f9; }
         body { margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
         
-        /* [1] 헤더 및 슬라이드 메뉴 스타일 */
+        /* [공통] 헤더 설정 */
         header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #eee; }
         .logo { font-size: 1.5rem; font-weight: 900; text-decoration: none; color: inherit; z-index: 1100; }
         
@@ -18,10 +18,10 @@
         .nav-item a { text-decoration: none; color: var(--text-main); transition: 0.3s; }
         .nav-item a:hover { color: var(--point-color); }
 
-        .dropdown { 
-            position: absolute; top: 100%; left: 50%; transform: translateX(-50%); 
-            background: #fff; border: 1px solid #eee; border-radius: 8px; 
-            min-width: 100px; padding: 10px 0; display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+        .dropdown {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+            background: #fff; border: 1px solid #eee; border-radius: 8px;
+            min-width: 100px; padding: 10px 0; display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         .dropdown a { display: block; padding: 8px 20px; font-size: 0.85rem; white-space: nowrap; }
         .nav-item:hover .dropdown { display: block; }
@@ -30,40 +30,40 @@
         .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1100; }
         .menu-toggle span { width: 25px; height: 3px; background: #000; transition: 0.3s; }
 
-        /* [2] 상세 페이지 레이아웃 스타일 (이 부분이 누락되어 있었습니다!) */
+        /* [공통] 모바일 대응 (너비 50%) */
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .nav-wrapper {
+                position: fixed; top: 0; right: -100%; 
+                width: 50%; height: 100vh; background: #fff;
+                flex-direction: column; justify-content: center; align-items: center;
+                gap: 30px; transition: 0.4s ease-in-out; 
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            }
+            .nav-wrapper.active { right: 0; }
+            .dropdown { position: static; transform: none; display: block; box-shadow: none; border: none; text-align: center; padding: 0; }
+            .dropdown a { padding: 5px 0; color: var(--text-sub) !important; font-size: 0.9rem; }
+            .nav-item { text-align: center; font-size: 1.1rem; }
+            
+            /* 상세 페이지 전용 모바일 조절 */
+            .info-section h1 { font-size: 1.8rem; }
+            .shots-grid { grid-template-columns: 1fr; }
+        }
+
+        /* 작품 상세 페이지 전용 레이아웃 */
         .detail-container { padding: 60px 5%; max-width: 1000px; margin: 0 auto; }
         .main-visual { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 40px; border: 1px solid #eee; }
         .main-visual img { width: 100%; display: block; }
-
         .info-section { margin-bottom: 60px; text-align: center; }
         .info-section h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 800; }
         .info-section p { color: var(--text-sub); font-size: 1.1rem; }
         .back-btn { display: inline-block; margin-top: 20px; padding: 10px 30px; background: #000; color: #fff; text-decoration: none; border-radius: 50px; font-weight: 600; transition: 0.3s; }
         .back-btn:hover { background: var(--point-color); color: #000; }
-
         .shots-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .shots-title::before { content: ""; width: 20px; height: 4px; background: var(--point-color); }
         .shots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
         .shots-grid img { width: 100%; border-radius: 15px; border: 1px solid #eee; }
-
         footer { text-align: center; padding: 60px; color: #bbb; font-size: 0.8rem; border-top: 1px solid #eee; }
-
-        /* [3] 모바일 대응 */
-        @media (max-width: 768px) {
-            .menu-toggle { display: flex; }
-            .nav-wrapper {
-                position: fixed; top: 0; right: -100%; width: 70%; height: 100vh; background: #fff;
-                flex-direction: column; justify-content: center; align-items: center;
-                gap: 30px; transition: 0.4s ease-in-out; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-            }
-            .nav-wrapper.active { right: 0; }
-            .dropdown { position: static; transform: none; display: block; box-shadow: none; border: none; text-align: center; padding: 0; }
-            .dropdown a { padding: 5px 0; color: var(--text-sub) !important; font-size: 0.9rem; }
-            
-            /* 상세 페이지 모바일 조절 */
-            .info-section h1 { font-size: 1.8rem; }
-            .shots-grid { grid-template-columns: 1fr; } /* 모바일은 이미지를 한 줄로 */
-        }
     </style>
 </head>
 <body>
@@ -92,36 +92,24 @@
     </header>
 
     <div class="detail-container">
-        <div class="main-visual">
-            <img src="ippari001.png" alt="이빠리 Black & Red"> 
-        </div>
-
+        <div class="main-visual"><img src="ippari001.png" alt="이빠리 Black & Red"></div>
         <div class="info-section">
-            <h1>이빠리 Black & Red</h1> 
+            <h1>이빠리 Black & Red</h1>
             <p>Resin, acrylic | 2025</p>
             <a href="index.html" class="back-btn">목록으로 돌아가기</a>
         </div>
-
         <div class="shots-title">Detail Cuts</div>
         <div class="shots-grid">
             <img src="ippari001.png" alt="Detail 1">
             <img src="ippari001.png" alt="Detail 2">
         </div>
     </div>
-
     <footer>&copy; 2025 JOOMOOL. All rights reserved.</footer>
-
     <script>
         const menuToggle = document.getElementById('mobile-menu');
         const navContent = document.getElementById('nav-content');
-
-        menuToggle.addEventListener('click', () => {
-            navContent.classList.toggle('active');
-        });
-
-        navContent.addEventListener('click', () => {
-            navContent.classList.remove('active');
-        });
+        menuToggle.addEventListener('click', () => { navContent.classList.toggle('active'); });
+        navContent.addEventListener('click', () => { navContent.classList.remove('active'); });
     </script>
 </body>
 </html>

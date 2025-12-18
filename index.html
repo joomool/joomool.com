@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아트토이 작가 포트폴리오</title>
+    <title>JOOMOOL - 아트토이 포트폴리오</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <style>
         :root {
-            --point-color: #39FF14; 
+            --point-color: #39FF14; /* 형광 그린 */
             --bg-color: #ffffff;
             --text-main: #111111;
             --text-sub: #666666;
@@ -15,10 +15,12 @@
         }
 
         body {
-            margin: 0; padding: 0;
+            margin: 0;
+            padding: 0;
             font-family: 'Pretendard', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
+            word-break: keep-all;
         }
 
         header {
@@ -34,8 +36,8 @@
             border-bottom: 1px solid #eee;
         }
 
-        .logo { font-size: 1.4rem; font-weight: 800; }
-        nav a { color: var(--text-main); text-decoration: none; margin-left: 25px; font-size: 0.95rem; }
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -0.5px; }
+        nav a { color: var(--text-main); text-decoration: none; margin-left: 25px; font-size: 0.9rem; font-weight: 600; }
 
         .hero {
             height: 50vh;
@@ -44,14 +46,16 @@
             justify-content: center;
             align-items: center;
             text-align: center;
+            padding: 0 5%;
         }
 
-        .hero h1 { font-size: 3rem; font-weight: 800; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 15px; font-weight: 800; }
         .hero h1 span { background-color: var(--point-color); padding: 0 10px; }
+        .hero p { font-size: 1.2rem; color: var(--text-sub); }
 
-        .container { padding: 50px 5%; max-width: 1200px; margin: 0 auto; }
-        .section-title { font-size: 1.8rem; margin-bottom: 40px; display: flex; align-items: center; gap: 15px; }
-        .section-title::before { content: ""; width: 40px; height: 4px; background-color: var(--point-color); }
+        .container { padding: 60px 5%; max-width: 1200px; margin: 0 auto; }
+        .section-title { font-size: 1.8rem; margin-bottom: 40px; display: flex; align-items: center; gap: 15px; font-weight: 700; }
+        .section-title::before { content: ""; width: 35px; height: 5px; background-color: var(--point-color); }
 
         .grid {
             display: grid;
@@ -64,29 +68,35 @@
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid #eee;
+            transition: transform 0.3s ease;
         }
+        
+        .item:hover { transform: translateY(-10px); }
 
         .item img { 
             width: 100%; 
-            height: auto; /* 이미지 비율 유지 */
+            height: auto; 
             display: block;
         }
 
         .item-info { padding: 25px; }
-        .item-info h3 { margin: 0; font-size: 1.2rem; }
-        .item-info p { color: var(--text-sub); margin: 10px 0; }
+        .item-info h3 { margin: 0; font-size: 1.3rem; font-weight: 700; }
+        .item-info p { color: var(--text-sub); margin: 10px 0 20px; font-size: 0.95rem; }
 
         .btn-buy {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 12px 24px;
             background-color: var(--text-main);
             color: #fff;
             text-decoration: none;
             border-radius: 50px;
-            font-size: 0.9rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: 0.3s;
         }
+        .btn-buy:hover { background-color: var(--point-color); color: #000; }
 
-        footer { text-align: center; padding: 50px; background: #f1f1f1; color: #888; }
+        footer { text-align: center; padding: 60px 5%; background: #f8f8f8; color: #999; font-size: 0.85rem; }
     </style>
 </head>
 <body>
@@ -94,13 +104,13 @@
     <header>
         <div class="logo">JOOMOOL</div>
         <nav>
-            <a href="#portfolio">포트폴리오</a>
-            <a href="#shop">판매 작품</a>
+            <a href="#portfolio">PORTFOLIO</a>
+            <a href="#shop">SHOP</a>
         </nav>
     </header>
 
     <section class="hero">
-        <h1>Welcome to <span>My Universe</span></h1>
+        <h1>JOOMOOL <span>Universe</span></h1>
         <p>작고 단단한 세계를 만드는 아트토이 작가 주물입니다.</p>
     </section>
 
@@ -110,33 +120,3 @@
             <div class="item">
                 <img src="ippari002_01.png" alt="Ippari Purple">
                 <div class="item-info">
-                    <h3>이파리 Purple</h3>
-                    <p>Glitter Resin | 2024</p>
-                </div>
-            </div>
-            
-            <div class="item">
-                <img src="ippari001.png" alt="Ippari Black">
-                <div class="item-info">
-                    <h3>이파리 Black</h3>
-                    <p>Vinyl Mixed Media | 2024</p>
-                </div>
-            </div>
-
-            <div class="item" id="shop">
-                <img src="angma_005.png" alt="Angma">
-                <div class="item-info">
-                    <h3>앙마 Pink</h3>
-                    <p>₩ 150,000 (Available)</p>
-                    <a href="#" class="btn-buy" style="background-color: var(--point-color); color: #000;">구매 문의하기</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <footer>
-        &copy; 2024 JOOMOOL. All rights reserved.
-    </footer>
-
-</body>
-</html>

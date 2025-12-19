@@ -9,17 +9,51 @@
         :root { --point-color: #39FF14; --bg-color: #ffffff; --text-main: #111111; --text-sub: #666666; --card-bg: #f9f9f9; }
         body { margin: 0; padding: 0; font-family: 'Pretendard', sans-serif; background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
         
-        /* 헤더 설정 */
         header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #eee; }
         .logo { font-size: 1.5rem; font-weight: 900; text-decoration: none; color: inherit; z-index: 1100; }
         
-        /* 네비게이션 wrapper (기본 PC 스타일) */
         .nav-wrapper { display: flex; align-items: center; gap: 25px; }
-        .nav-item { position: relative; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .nav-item { position: relative; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; }
         .nav-item a { text-decoration: none; color: var(--text-main); transition: 0.3s; }
         .nav-item a:hover { color: var(--point-color); }
 
-        /* CHARACTER 드롭다운 스타일 */
+        /* 커미션 수평 정렬 완벽 수정 버전 */
+        .commission-item {
+            width: 85px; 
+            display: grid; /* grid를 사용하여 요소를 중앙에 겹침 */
+            place-items: center;
+        }
+        .commission-link {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        .pencil-icon {
+            grid-area: 1 / 1; /* 같은 영역에 배치 */
+            width: 18px;
+            height: 18px;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 1;
+        }
+        .commission-text {
+            grid-area: 1 / 1; /* 같은 영역에 배치하여 수평/수직 열 맞춤 */
+            font-size: 0.85rem;
+            color: var(--point-color);
+            font-weight: 800;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            line-height: 1; /* 텍스트 높이 초기화로 수평 정렬 보정 */
+        }
+        .commission-link:hover .pencil-icon {
+            opacity: 0; 
+            transform: scale(0.5);
+        }
+        .commission-link:hover .commission-text {
+            opacity: 1; 
+        }
+
         .dropdown {
             position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
             background: #fff; border: 1px solid #eee; border-radius: 8px;
@@ -30,34 +64,35 @@
 
         .insta-icon { width: 18px; height: 18px; vertical-align: middle; }
 
-        /* 햄버거 버튼 (기본 숨김) */
         .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1100; }
         .menu-toggle span { width: 25px; height: 3px; background: #000; transition: 0.3s; }
 
-        /* --- 모바일 대응 (768px 이하) --- */
         @media (max-width: 768px) {
             .menu-toggle { display: flex; }
-            
             .nav-wrapper {
-                position: fixed; top: 0; right: -100%; /* 오른쪽 밖으로 숨김 */
+                position: fixed; top: 0; right: -100%;
                 width: 50%; height: 100vh; background: #fff;
                 flex-direction: column; justify-content: center; align-items: center;
                 gap: 30px; transition: 0.4s ease-in-out; 
                 box-shadow: -5px 0 15px rgba(0,0,0,0.1);
             }
-
-            .nav-wrapper.active { right: 0; } /* 클릭 시 나타남 */
-
-            /* 모바일에서는 드롭다운을 그냥 밑에 바로 보이게 처리 */
+            .nav-wrapper.active { right: 0; }
             .dropdown { position: static; transform: none; display: block; box-shadow: none; border: none; text-align: center; padding: 0; }
             .dropdown a { padding: 5px 0; color: var(--text-sub) !important; font-size: 0.9rem; }
             .nav-item { text-align: center; font-size: 1.1rem; }
+            
+            .commission-item { width: auto; height: auto; }
+            .commission-link { display: flex; flex-direction: row; gap: 8px; }
+            .pencil-icon { position: static; opacity: 1 !important; transform: none !important; }
+            .commission-text { position: static; opacity: 1 !important; }
         }
 
-        /* 기존 디자인 섹션 */
         .hero { height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        .hero h1 { font-size: 3rem; font-weight: 800; }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 15px; }
         .hero h1 span { background-color: var(--point-color); padding: 0 10px; }
+        /* '주물주물 작은 세계' 텍스트 크게 수정 */
+        .hero p { font-size: 1.5rem; font-weight: 600; color: var(--text-main); margin: 0; }
+
         .container { padding: 40px 5%; max-width: 1200px; margin: 0 auto; }
         .section-title { font-size: 1.5rem; margin-bottom: 30px; display: flex; align-items: center; gap: 10px; }
         .section-title::before { content: ""; width: 30px; height: 4px; background-color: var(--point-color); }
@@ -75,14 +110,14 @@
 <body>
     <header>
         <a href="index.html" class="logo">JOOMOOL</a>
-        
-        <div class="menu-toggle" id="mobile-menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
+        <div class="menu-toggle" id="mobile-menu"><span></span><span></span><span></span></div>
         <nav class="nav-wrapper" id="nav-content">
+            <div class="nav-item commission-item">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSdcVtG2dU2rPU2jba-NNDaZOvp41gOdBdxz2h-_-ln3_NmlOg/viewform?usp=dialog" target="_blank" class="commission-link">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1250/1250615.png" alt="Pencil" class="pencil-icon">
+                    <span class="commission-text">COMMISSION</span>
+                </a>
+            </div>
             <div class="nav-item">
                 <a href="#">CHARACTER</a>
                 <div class="dropdown">
@@ -143,16 +178,8 @@
     <script>
         const menuToggle = document.getElementById('mobile-menu');
         const navContent = document.getElementById('nav-content');
-
-        menuToggle.addEventListener('click', () => {
-            navContent.classList.toggle('active');
-        });
-
-        // 메뉴 클릭 시 자동으로 닫기
-        navContent.addEventListener('click', () => {
-            navContent.classList.remove('active');
-        });
+        menuToggle.addEventListener('click', () => { navContent.classList.toggle('active'); });
+        navContent.addEventListener('click', () => { navContent.classList.remove('active'); });
     </script>
 </body>
-
 </html>

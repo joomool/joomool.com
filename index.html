@@ -13,11 +13,11 @@
         header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); z-index: 1000; border-bottom: 1px solid #eee; }
         .logo { font-size: 1.5rem; font-weight: 900; text-decoration: none; color: inherit; z-index: 1100; }
         
-        /* 네비게이션 wrapper (기본 PC 스타일) */
+        /* 네비게이션 wrapper */
         .nav-wrapper { display: flex; align-items: center; gap: 25px; }
         .nav-item { position: relative; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; }
-        .nav-item a { text-decoration: none; color: var(--text-main); transition: 0.3s; }
-        .nav-item a:hover { color: var(--point-color); }
+        .nav-item > a { text-decoration: none; color: var(--text-main); transition: 0.3s; } /* 자식 선택자로 변경 */
+        .nav-item > a:hover { color: var(--point-color); }
 
         /* 커미션 오버랩 스타일 */
         .commission-item { width: 85px; display: grid; place-items: center; }
@@ -27,35 +27,55 @@
         .commission-link:hover .pencil-icon { opacity: 0; transform: scale(0.5); }
         .commission-link:hover .commission-text { opacity: 1; }
 
-        /* CHARACTER 드롭다운 스타일 */
+        /* CHARACTER 드롭다운 스타일 (PC) */
         .dropdown { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); background: #fff; border: 1px solid #eee; border-radius: 8px; min-width: 100px; padding: 10px 0; display: none; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .dropdown a { display: block; padding: 8px 20px; font-size: 0.85rem; white-space: nowrap; }
+        .dropdown a { display: block; padding: 8px 20px; font-size: 0.85rem; white-space: nowrap; text-decoration: none; color: var(--text-main); }
+        .dropdown a:hover { color: var(--point-color); }
         .nav-item:hover .dropdown { display: block; }
+        
         .insta-icon { width: 18px; height: 18px; vertical-align: middle; }
 
         /* 햄버거 버튼 */
         .menu-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; z-index: 1100; }
         .menu-toggle span { width: 25px; height: 3px; background: #000; transition: 0.3s; }
 
-        /* --- 모바일 대응 (768px 이하) --- */
+        /* --- 모바일 대응 (핵심 수정 부분) --- */
         @media (max-width: 768px) {
             .menu-toggle { display: flex; }
             .nav-wrapper {
                 position: fixed; top: 0; right: -100%;
                 width: 50%; height: 100vh; background: #fff;
-                flex-direction: column; justify-content: center; align-items: center;
-                gap: 35px; transition: 0.4s ease-in-out; 
+                flex-direction: column; justify-content: flex-start; /* 위에서부터 정렬 */
+                align-items: center;
+                padding-top: 80px; /* 상단 여백 추가 */
+                gap: 20px; transition: 0.4s ease-in-out; 
                 box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+                overflow-y: auto; /* 메뉴가 길어지면 스크롤 가능하게 */
             }
             .nav-wrapper.active { right: 0; }
             
-            /* 모바일에서 메뉴 글자들 정렬 보정 */
-            .nav-item { width: 100%; justify-content: center; text-align: center; font-size: 1.1rem; }
-            .dropdown { position: static; transform: none; display: block; box-shadow: none; border: none; padding: 10px 0 0 0; }
-            .dropdown a { padding: 8px 0; color: var(--text-sub) !important; font-size: 0.95rem; }
+            /* 모바일 메뉴 아이템 정렬 */
+            .nav-item { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+            .nav-item > a { font-size: 1.1rem; padding: 10px 0; width: 100%; text-align: center; }
 
-            /* 모바일에서 커미션 버튼은 오버랩 없이 아이콘+글자 같이 노출 */
-            .commission-item { width: auto; }
+            /* 모바일 드롭다운 (아코디언 스타일) */
+            .dropdown { 
+                position: static; 
+                transform: none; 
+                display: none; /* 기본적으로 숨김 */
+                box-shadow: none; 
+                border: none; 
+                padding: 0; 
+                background-color: #f9f9f9; /* 배경색으로 구분 */
+                width: 100%;
+            }
+            .dropdown a { padding: 10px 0; color: var(--text-sub) !important; font-size: 0.95rem; text-align: center; }
+            
+            /* active 클래스가 붙으면 드롭다운 보임 */
+            .nav-item.active .dropdown { display: block; }
+
+            /* 모바일 커미션 버튼 */
+            .commission-item { width: 100%; }
             .commission-link { display: flex; flex-direction: row; gap: 8px; }
             .pencil-icon { position: static; opacity: 1 !important; transform: none !important; }
             .commission-text { position: static; opacity: 1 !important; color: var(--point-color) !important; }
@@ -100,8 +120,7 @@
                 </a>
             </div>
 
-            <div class="nav-item">
-                <a href="#">CHARACTER</a>
+            <div class="nav-item has-dropdown"> <a href="#">CHARACTER</a>
                 <div class="dropdown">
                     <a href="char_ippari.html">ippari</a>
                     <a href="char_angma.html">angma</a>
@@ -161,13 +180,37 @@
         const menuToggle = document.getElementById('mobile-menu');
         const navContent = document.getElementById('nav-content');
 
-        menuToggle.addEventListener('click', () => {
+        // 1. 햄버거 버튼 클릭 (메뉴 열기/닫기)
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // 이벤트 전파 방지
             navContent.classList.toggle('active');
         });
 
-        // 메뉴 클릭 시 자동으로 닫기
-        navContent.addEventListener('click', () => {
-            navContent.classList.remove('active');
+        // 2. 모바일에서 CHARACTER 클릭 시 하위 메뉴 펼치기 (아코디언)
+        const dropdownItems = document.querySelectorAll('.nav-item');
+
+        dropdownItems.forEach(item => {
+            // 하위 메뉴(.dropdown)가 있는 아이템인지 확인
+            if (item.querySelector('.dropdown')) {
+                const link = item.querySelector('a');
+                
+                link.addEventListener('click', (e) => {
+                    // 모바일 화면(768px 이하)일 때만 작동
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault(); // 링크 이동 막기
+                        item.classList.toggle('active'); // active 클래스 토글 (CSS에서 display: block 처리)
+                    }
+                });
+            }
+        });
+
+        // 3. 메뉴 영역 밖 클릭 시 닫기
+        document.addEventListener('click', (e) => {
+            if (!navContent.contains(e.target) && !menuToggle.contains(e.target)) {
+                navContent.classList.remove('active');
+                // 열려있던 드롭다운도 같이 닫아주기 (선택사항)
+                dropdownItems.forEach(item => item.classList.remove('active'));
+            }
         });
     </script>
 </body>
